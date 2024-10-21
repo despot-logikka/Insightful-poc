@@ -1,0 +1,100 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Calibri;}{\f1\fnil\fcharset1 Cambria Math;}{\f2\fnil\fcharset0 Cambria Math;}}
+{\*\generator Riched20 10.0.19041}{\*\mmathPr\mmathFont1\mwrapIndent1440 }\viewkind4\uc1 
+\pard\sa200\sl276\slmult1\b\f0\fs36\lang9 Insightful\fs22\par
+
+\pard\sa200\sl240\slmult1\b0 As we can observe, the completeness of information in our data is present in fields such as App, which provides a broader category of the application, the specific duration (in terms of start_time and end_time), and more detailed information about the specific window within the application. It is advisable to conduct the initial analysis without using information on mouse clicks, scrolling, and keyboard usage, or job descriptions. As mentioned, this data is only partially available, which could introduce bias into the statistics by undervaluing the data that is consistently present across all users. It is beneficial at the outset to create as many informative features as possible, allowing us to form more distinct clusters and potentially separate certain user groups.\par
+\i Note: Once we receive the complete dataset and thoroughly review it (examining all columns, as well as the overall quality of the data and the analysis of all categories and values that appear), we should discuss potential new features that have not yet been identified.\par
+\i0 In the following sections, we can see several proposed approaches that we may consider to achieve the most effective results. These approaches have been designed to explore different angles of the analysis and optimize our potential outcomes.\par
+\b\i\fs32 Feature Engineering and Data Exploration \b0\i0\fs22\par
+This list of features represents a starting point for our analysis and is by no means exhaustive. These are some of the features we might investigate further as we gain a deeper understanding of the dataset and its potential. We have considered a broad range of features, but our primary focus should be on transition-based features, as they are most likely to contain valuable information for detecting distractors and identifying different groups of distractors among users. Transition-based features can reveal patterns in how people switch between apps, which often points to their focus or distraction tendencies.\par
+The ultimate goal of this feature engineering process is to create a robust representation of user behavior, highlighting how app-switching patterns relate to productivity and distractions. By focusing on transitions, we aim to uncover underlying patterns that standard app usage metrics might overlook.\par
+\b\i\fs24 Additional Steps: Data Exploration and Preprocessing\b0\i0\fs22\par
+Before diving into the feature engineering and clustering process, it is essential to conduct a thorough data exploration and preprocessing phase. This step will ensure that the dataset is clean, consistent, and ready for the analysis. We propose the following actions:\par
+\b\i Data Cleaning and Normalization:\b0\i0\par
+Review the unique values for the app names: Check for inconsistencies, variations in naming, and any irrelevant apps that might dilute the analysis.\par
+Standardize app names: If the app set is too large or contains multiple variations of the same app, consider consolidating them into a more manageable set of unique categories.\par
+Handle missing or incomplete data: Ensure that any gaps in the start or end times for app usage are addressed, as these can impact the accuracy of the transition-based features.\par
+\b\i Dataset Preparation:\b0\i0\par
+Feature Creation: Generate the features, with a focus on transition-based metrics that track user behavior and app-switching patterns.\par
+Scaling and Transformation: Normalize the data if necessary, especially for time-based features, to ensure that all variables contribute equally to the clustering process.\par
+Data Segmentation: Segment the dataset into daily records for each user, ensuring that each row of the dataset represents one user\rquote s app usage for a specific day. This approach will allow us to capture daily patterns and transitions.\i\par
+\i0 Some features we can define based on the available data include:\par
+\b\i\fs28 Transition-Based Features:\b0\i0\fs22\par
+\b\i transition_count_AppA_to_AppB: \b0\i0 Counts how many times a user transitions between specific applications (e.g., VSCode \f1\u8594?\f0  YouTube), capturing distraction-related app switches.\par
+\b\i time_spent_before_transition\b0\i0 : Measures how long a user stays in an app before switching to another, indicating focus or rapid context-switching.\par
+\b\i avg_time_before_transition_to_AppB: \b0\i0 The average duration spent in any app before transitioning to a specific app (e.g., Netflix), useful for identifying habitual distractions.\par
+\b\i time_of_day_transition\b0\i0 : Tracks when transitions occur during the day, helping to analyze when distractions happen most frequently.\par
+\b\i number_of_transitions_per_day_or_hour\b0\i0 : Counts the total number of app transitions per day or hour, indicating overall frequency of switching and potential multitasking behavior.\par
+\b\i\fs28 Session-Based Features:\b0\i0\fs22\par
+\b\i session_length_AppX: \b0\i0 Measures the length of continuous sessions in a specific app, indicating periods of focused work or distraction.\par
+\b\i transition_frequency_within_session: \b0\i0 Counts how many times a user switches apps within a single session, which can show multitasking or frequent distractions.\par
+\b\i cumulative_time_in_transitions\b0\i0 : Sum of the time spent across a series of transitions, showing how much time is consumed by app-switching behavior.\par
+\b\i time_gap_between_sessions: \b0\i0 The time between the end of one session and the start of the next, indicating breaks or distractions between tasks.\par
+\b\i\fs28 Window-Specific Features:\b0\i0\fs22\par
+\b\i window_transition_frequency\b0\i0 : Tracks how often a user switches between different windows within an app, indicating either focused work or internal app distractions.\par
+\b\i window_duration_before_switch\b0\i0 : Measures the time spent on a window before switching, useful for understanding focus within an application (e.g., switching between tabs in Chrome).\par
+\b\i\fs28 Transition Chains:\b0\i0\fs22\par
+\b\i transition_chain_frequency: \b0\i0 Tracks the frequency of specific app transition chains (e.g., VSCode \f1\u8594?\f0  Slack \f1\u8594?\f0  YouTube), useful for identifying habitual distraction patterns.\par
+\b\i\fs28 Session Overlap:\b0\i0\fs22\par
+\b\i overlapping_sessions\b0\i0 : Detects instances where multiple apps are used simultaneously, indicating multitasking or distraction.\par
+\b\i\fs28 Time-Based Features:\b0\i0\fs22\par
+\b\i total_working_hours: \b0\i0 Tracks the total time the laptop is active during the day, helping to measure general productivity or extended breaks.\par
+\b\i time_left_to_8_hours: \b0\i0 Measures how far a user is from reaching 8 hours of work, useful for identifying underperformance or extended downtime.\par
+\b\i pause_distribution: \b0\i0 Captures the distribution and frequency of pauses throughout the day, revealing when and how often breaks or distractions occur.\par
+\b\i pause_frequency\b0\i0 : Counts how many breaks are taken during the day, indicating the frequency of interruptions in focus.\par
+\b\i\fs28 Distribution Features:\b0\i0\fs22\par
+\b\i session_time_of_day\b0\i0 : Tracks when during the day sessions happen, allowing for analysis of peak productivity or distraction times.\par
+\b\i app_pause_correlation\b0\i0 : Identifies whether certain apps are frequently followed by breaks or distractions, helping to correlate app usage with distractions.\par
+\b\i work_bursts\b0\i0 : Measures continuous periods of work without switching to distractions, highlighting focused work sessions.\par
+\b\i\fs28 Newly Added Transition-Related Features:\b0\i0\fs22\par
+\b\i number_of_transitions_per_day_or_hour\b0\i0 : Counts the number of transitions between apps over a given period (day/hour), showing how frequently a user switches between apps.\par
+\b\i transition_frequency: \b0\i0 Measures how often transitions occur within a certain timeframe, such as during peak work hours, giving insight into multitasking or distractions.\par
+\b\i transition\f2 _\f0 chain\f2 _\f0 length\f2 _\f0 per\f2 _\f0 app\b0\i0\f2 : \f0 Measures\f2  \f0 the\f2  \f0 length\f2  \f0 of\f2  \f0 transition\f2  \f0 chains\f2  \f0 for\f2  \f0 each\f2  \f0 specific\f2  \f0 app\f2 , \f0 indicating\f2  \f0 how\f2  \f0 many\f2  \f0 different\f2  \f0 apps\f2  \f0 a\f2  \f0 user\f2  \f0 cycles\f2  \f0 through\f2  \f0 before\f2  \f0 returning\f2  \f0 to\f2  \f0 that\f2  \f0 initial\f2  \f0 app\f2 .\f0\par
+\b\i high\f2 _\f0 frequency\f2 _\f0 transition\f2 _\f0 chains\f2 : \b0\i0\f0 Counts\f2  \f0 the\f2  \f0 occurrence\f2  \f0 of\f2  \f0 transition\f2  \f0 chains\f2  \f0 of\f2  \f0 3\f2  \f0 or\f2  \f0 more\f2  \f0 apps\f2  \f0 that\f2  \f0 happen\f2  \f0 within\f2  \f0 a\f2  \f0 short\f2  \f0 time\f2  \f0 window\f2  (\f0 e\f2 .\f0 g\f2 ., \f0 under\f2  \f0 2\f2  \f0 minutes\f2 ), \f0 highlighting\f2  \f0 periods\f2  \f0 of\f2  \f0 rapid\f2  \f0 app\f2 -\f0 switching\f2  \f0 behavior\f2 .\f0\par
+\b\i number\f2 _\f0 of\f2 _\f0 unique\f2 _\f0 app\f2 _\f0 transitions\f2 : \b0\i0\f0 Tracks\f2  \f0 the\f2  \f0 number\f2  \f0 of\f2  \f0 distinct\f2  \f0 app\f2  \f0 transitions\f2  \f0 that\f2  \f0 occurred\f2  \f0 during\f2  \f0 the\f2  \f0 day\f2 , \f0 highlighting\f2  \f0 the\f2  \f0 diversity\f2  \f0 of\f2  \f0 the\f2  \f0 user's\f2  \f0 app\f2 -\f0 switching\f2  \f0 behavior\f2 .\f0\par
+\b\i transition\f2 _\f0 pattern\f2 _\f0 frequency\f2 : \b0\i0\f0 Identifies\f2  \f0 the\f2  \f0 most\f2  \f0 common\f2  \f0 app\f2  \f0 transition\f2  \f0 patterns\f2  \f0 in\f2  \f0 a\f2  \f0 user's\f2  \f0 daily\f2  \f0 activity\f2 , \f0 indicating\f2  \f0 habitual\f2  \f0 behavior\f2  \f0 in\f2  \f0 app\f2  \f0 usage\f2 .\f0\par
+\b\i short\f2 _\f0 burst\f2 _\f0 transition\f2 _\f0 frequency\f2 : \b0\i0\f0 Counts\f2  \f0 how\f2  \f0 often\f2  \f0 users\f2  \f0 make\f2  \f0 rapid\f2  \f0 app\f2  \f0 switches\f2  \f0 within\f2  \f0 a\f2  \f0 short\f2  \f0 time\f2  \f0 frame\f2  (\f0 e\f2 .\f0 g\f2 ., \f0 1\f2 -\f0 5\f2  \f0 minutes\f2 ), \f0 indicating\f2  \f0 fragmented\f2  \f0 attention\f2  \f0 or\f2  \f0 frequent\f2  \f0 distractions\f2 .\f0\par
+\b\i average\f2 _\f0 time\f2 _\f0 spent\f2 _\f0 before\f2 _\f0 transition\f2 : \b0\i0\f0 Calculates\f2  \f0 the\f2  \f0 average\f2  \f0 time\f2  \f0 spent\f2  \f0 in\f2  \f0 any\f2  \f0 app\f2  \f0 before\f2  \f0 transitioning\f2  \f0 to\f2  \f0 another\f2 , \f0 which\f2  \f0 helps\f2  \f0 identify\f2  \f0 the\f2  \f0 user's\f2  \f0 engagement\f2  \f0 level\f2  \f0 in\f2  \f0 each\f2  \f0 app\f2 .\f0\par
+\b\i peak\f2 _\f0 transition\f2 _\f0 time\f2 _\f0 of\f2 _\f0 day\f2 : \b0\i0\f0 Determines\f2  \f0 the\f2  \f0 time\f2  \f0 of\f2  \f0 day\f2  \f0 when\f2  \f0 users\f2  \f0 make\f2  \f0 the\f2  \f0 most\f2  \f0 transitions\f2 , \f0 helping\f2  \f0 to\f2  \f0 identify\f2  \f0 when\f2  \f0 distractions\f2  \f0 or\f2  \f0 multitasking\f2  \f0 are\f2  \f0 most\f2  \f0 likely\f2  \f0 to\f2  \f0 occur\f2 .\f0\par
+\b\i proportion\f2 _\f0 of\f2 _\f0 high\f2 _\f0 frequency\f2 _\f0 transitions\f2 : \b0\i0\f0 Measures\f2  \f0 the\f2  \f0 proportion\f2  \f0 of\f2  \f0 app\f2  \f0 transitions\f2  \f0 that\f2  \f0 occur\f2  \f0 at\f2  \f0 high\f2  \f0 frequency\f2  (\f0 e\f2 .\f0 g\f2 ., \f0 within\f2  \f0 2\f2  \f0 minutes\f2 ), \f0 indicating\f2  \f0 periods\f2  \f0 of\f2  \f0 intense\f2  \f0 multitasking\f2  \f0 or\f2  \f0 rapid\f2  \f0 app\f2 -\f0 switching\f2 .\f0\par
+\b\i app\f2 _\f0 transition\f2 _\f0 diversity\f2 _\f0 index\b0\i0\f2 : \f0 Calculates\f2  \f0 the\f2  \f0 diversity\f2  \f0 of\f2  \f0 app\f2  \f0 transitions\f2  \f0 using\f2  \f0 an\f2  \f0 entropy\f2 -\f0 based\f2  \f0 metric\f2 , \f0 reflecting\f2  \f0 how\f2  \f0 varied\f2  \f0 or\f2  \f0 predictable\f2  \f0 a\f2  \f0 user's\f2  \f0 app\f2 -\f0 switching\f2  \f0 behavior\f2  \f0 is\f2 .\par
+------------------------------------------------------------------------------------------------------------------------\par
+\b\i\fs32 Transition-Based Analysis Using Word2Vec and Sequence Models\b0\i0\fs22\par
+\f0 The objective of this approach is to analyze user behavior based on app transitions throughout the day, focusing on patterns that might indicate distractions or focus. We propose leveraging a combination of Word2Vec to create dense vector representations of these transitions, followed by sequence models like LSTMs or TCNs to capture the temporal dependencies in the app-switching behavior. By embedding the sequences in this way, we aim to cluster users based on their transition patterns and identify groups with similar distraction tendencies.\par
+\b\i\fs24 Different Input Sequence Creation Strategies\b0\i0\fs22\par
+To create the most informative input sequences for our models, we will consider several strategies for representing app transitions. Here are the different approaches we propose:\par
+\b\i Listing Apps with Specific Resolution\b0\i0 :\par
+This approach involves recording the dominant app used at regular intervals (e.g., every minute or every 10 seconds).\par
+Pros: Provides a granular view of app usage over time.\par
+Cons: It might miss out on capturing the exact moments when transitions occur if the resolution is too coarse.\par
+\b\i Listing Only Transitions\b0\i0 :\par
+In this method, we will focus purely on transitions between apps, listing only the moments when the user switches from one app to another.\par
+Pros: Directly highlights changes in focus, which are the most critical moments to analyze for distraction patterns.\par
+Cons: It does not include information on how long the user spent on each app before switching and different input lenght.\par
+\b\i Creating a Text Document Representation of Transitions\b0\i0 :\par
+We will concatenate all transitions into a single text-like sequence, treating each transition as a word in a sentence.\par
+This allows us to leverage Word2Vec or other NLP techniques to learn embeddings from the sequence.\par
+Pros: Maintains the order of transitions and treats the sequence like natural language, capturing contextual relationships between apps.\par
+Cons: Loses detailed information about the duration of time spent on each app.\par
+\b\i Including Time Spent in the Last App Before Transition:\b0\i0\par
+To enrich the transition data, we will include the duration spent in each app before making a transition, adding more context to each step.\par
+Example Representation: Instead of just listing transitions like VSCode_to_Slack, we will include time details like VSCode_5min_to_Slack.\par
+Pros: Provides a clearer picture of user engagement levels and how long they stay focused before switching.\par
+Cons: It may increase the complexity of the data, but the added information can be valuable for identifying distraction patterns.\par
+------------------------------------------------------------------------------------------------------------------------\par
+\b\i\fs32 Using\f2  \f0 Large\f2  \f0 Language\f2  \f0 Models\f2  (\f0 LLMs\f2 ) \f0 for\f2  \f0 Embedding\f2  \f0 App\f2  \f0 Transition\f2  \f0 Sequences\b0\i0\fs22\par
+The\f2  \f0 core\f2  \f0 concept\f2  \f0 of\f2  \f0 this\f2  \f0 approach\f2  \f0 is\f2  \f0 to\f2  \f0 utilize\f2  \f0 pre\f2 -\f0 trained\f2  \f0 Large\f2  \f0 Language\f2  \f0 Models\f2  (\f0 LLMs\f2 ) \f0 like\f2  \f0 BERT\f2 , \f0 GPT\f2 -\f0 3\f2 , \f0 or\f2  \f0 RoBERTa\f2  \f0 to\f2  \f0 create\f2  \f0 embeddings\f2  \f0 that\f2  \f0 capture\f2  \f0 the\f2  \f0 context\f2  \f0 and\f2  \f0 order\f2  \f0 of\f2  \f0 app\f2  \f0 transitions\f2 . \f0 LLMs\f2  \f0 are\f2  \f0 designed\f2  \f0 to\f2  \f0 handle\f2  \f0 sequential\f2  \f0 data\f2  \f0 with\f2  \f0 an\f2  \f0 understanding\f2  \f0 of\f2  \f0 contextual\f2  \f0 relationships\f2  \f0 between\f2  \f0 elements\f2 , \f0 making\f2  \f0 them\f2  \f0 a\f2  \f0 powerful\f2  \f0 tool\f2  \f0 for\f2  \f0 embedding\f2  \f0 complex\f2  \f0 transition\f2  \f0 patterns\f2  \f0 into\f2  \f0 dense\f2  \f0 vectors\f2  \f0 that\f2  \f0 can\f2  \f0 be\f2  \f0 used\f2  \f0 for\f2  \f0 clustering\f2  \f0 and\f2  \f0 analysis\f2 .\par
+\i\f0 Contextual Awareness\i0 : LLMs like BERT and GPT can create embeddings that understand the sequence and context of each transition, taking into account both the specific app transitions and their order.\par
+\i Semantic Understanding\i0 : These models can capture subtle relationships and patterns within the transitions, making it easier to differentiate between focus-related transitions and distractions.\par
+\i Note\i0\f2 : \f0 Similar\f2  \f0 to\f2  \f0 the\f2  \f0 previous\f2  \f0 approach\f2  \f0 mentioned\f2 , \f0 we\f2  \f0 need\f2  \f0 to\f2  \f0 consider\f2  \f0 the\f2  \f0 best\f2  \f0 way\f2  \f0 to\f2  \f0 create\f2  \f0 a\f2  \f0 new\f2  \f0 input\f2  \f0 sequence\f2  \f0 that\f2  \f0 emphasizes\f2  \f0 transitions\f2 .\par
+------------------------------------------------------------------------------------------------------------------------\par
+\b\i\f0\fs32 Using Dynamic Time Warping (DTW) for Analyzing App Transition Patterns\par
+\b0\i0\fs22 Dynamic Time Warping (DTW) is a technique that measures the similarity between two sequences, even if they vary in length or the events occur at different rates. This makes DTW particularly effective for analyzing user app transitions, where the timing and frequency of transitions can differ greatly between individuals. The main goal is to use DTW to identify users with similar patterns of app usage and transitions, even if those patterns happen at different times of the day or at different speeds.\par
+------------------------------------------------------------------------------------------------------------------------\par
+\b\i\fs32 Using\f2  \f0 Conv1D\f2  \f0 for\f2  \f0 Feature\f2  \f0 Extraction\f2  \f0 from\f2  \f0 App\f2  \f0 Transition\f2  \f0 Sequences\b0\i0\fs22\par
+The\f2  \f0 goal\f2  \f0 of\f2  \f0 using\f2  \f0 1D\f2  \f0 Convolutional\f2  \f0 Neural\f2  \f0 Networks\f2  (\f0 Conv1D\f2 ) \f0 in\f2  \f0 this\f2  \f0 context\f2  \f0 is\f2  \f0 to\f2  \f0 automatically\f2  \f0 learn\f2  \f0 and\f2  \f0 extract\f2  \f0 features\f2  \f0 from\f2  \f0 the\f2  \f0 sequence\f2  \f0 of\f2  \f0 app\f2  \f0 transitions\f2 . \f0 Conv1D\f2  \f0 is\f2  \f0 particularly\f2  \f0 effective\f2  \f0 for\f2  \f0 sequential\f2  \f0 data\f2  \f0 because\f2  \f0 it\f2  \f0 can\f2  \f0 identify\f2  \f0 patterns\f2  \f0 by\f2  \f0 sliding\f2  \f0 convolutional\f2  \f0 filters\f2  \f0 over\f2  \f0 the\f2  \f0 sequence\f2 . \f0 This\f2  \f0 approach\f2  \f0 leverages\f2  \f0 the\f2  \f0 power\f2  \f0 of\f2  \f0 convolutional\f2  \f0 layers\f2  \f0 to\f2  \f0 recognize\f2  \f0 both\f2  \f0 local\f2  \f0 and\f2  \f0 global\f2  \f0 patterns\f2  \f0 in\f2  \f0 app\f2 -\f0 switching\f2  \f0 behavior\f2 , \f0 which\f2  \f0 can\f2  \f0 be\f2  \f0 critical\f2  \f0 for\f2  \f0 detecting\f2  \f0 periods\f2  \f0 of\f2  \f0 focus\f2  \f0 or\f2  \f0 distraction\f2 .\par
+------------------------------------------------------------------------------------------------------------------------\f0\par
+\par
+\b\i\f1\par
+}
+ 
