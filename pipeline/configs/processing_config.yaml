@@ -4,4 +4,4 @@ paths:
   site_mappings: "mappings/site_mappings_3rd_round_.csv"
   browsers: "mappings/browsers.csv"
   exclude_mappings: "mappings/exclude_mappings.json"
-  processed_data: "data/processed_data_v2.csv"
+  processed_data: "data/processed_data.csv"

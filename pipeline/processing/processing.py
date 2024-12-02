@@ -46,6 +46,13 @@ class WorkdayProcessor:
         df['end_time'] = pd.to_datetime(df['end'], unit='ms')
         df = df.sort_values(by=['employeeId', 'start_time'])
 
+        # Filling NaN values in the DataFrame for specific columns
+        df['mouseClicks'].fillna(0, inplace=True)
+        df['keystrokes'].fillna(0, inplace=True)
+        df['mouseScroll'].fillna(0, inplace=True)
+        df['mic'].fillna(False, inplace=True)
+        df['camera'].fillna(False, inplace=True)
+
         # Rewrite 'app' as 'Private Links' where 'app' is in unique_apps and 'site' is NaN
         df.loc[df['app'].isin(unique_apps) & df['site'].isna(), 'app'] = 'Private Links'
 
@@ -268,7 +275,6 @@ class WorkdayProcessor:
         result_df = pd.DataFrame(result)
         
         return result_df
-
     
     @staticmethod
     def merge_log_lost_and_same_apps(df):
@@ -489,6 +495,11 @@ class WorkdayProcessor:
                     merged_app_durations = first_row['app_durations'].copy()
                     merged_app_start_times = first_row['app_start_times'].copy()
                     merged_app_end_times = first_row['app_end_times'].copy()
+                    merged_mouse_clicks = first_row['mouseClicks'].copy()
+                    merged_keystrokes = first_row['keystrokes'].copy()
+                    merged_mic = first_row['mic'].copy()
+                    merged_mouse_scroll = first_row['mouseScroll'].copy()
+                    merged_camera = first_row['camera'].copy()
 
                     # Loop through the rest of the workdays to merge
                     for i in range(1, len(merge_unique_ids)):
@@ -507,6 +518,11 @@ class WorkdayProcessor:
                         merged_app_durations.append(pause_duration_minutes)
                         merged_app_start_times.append(pause_start_time)
                         merged_app_end_times.append(pause_end_time)
+                        merged_mouse_clicks.append(0)
+                        merged_keystrokes.append(0)
+                        merged_mic.append(False)
+                        merged_mouse_scroll.append(0)
+                        merged_camera.append(False)
 
                         # Append the lists from the current workday
                         row_curr = df.loc[df['unique_id'] == uid_curr].iloc[0]
@@ -514,6 +530,11 @@ class WorkdayProcessor:
                         merged_app_durations.extend(row_curr['app_durations'])
                         merged_app_start_times.extend(row_curr['app_start_times'])
                         merged_app_end_times.extend(row_curr['app_end_times'])
+                        merged_mouse_clicks.extend(row_curr['mouseClicks'])
+                        merged_keystrokes.extend(row_curr['keystrokes'])
+                        merged_mic.extend(row_curr['mic'])
+                        merged_mouse_scroll.extend(row_curr['mouseScroll'])
+                        merged_camera.extend(row_curr['camera'])
 
                     # Update 'end_time', 'workday_duration', 'hours_until_next_workday'
                     last_unique_id = merge_unique_ids[-1]
@@ -529,6 +550,11 @@ class WorkdayProcessor:
                     df.at[first_row_index, 'app_durations'] = merged_app_durations
                     df.at[first_row_index, 'app_start_times'] = merged_app_start_times
                     df.at[first_row_index, 'app_end_times'] = merged_app_end_times
+                    df.at[first_row_index, 'mouseClicks'] = merged_mouse_clicks
+                    df.at[first_row_index, 'keystrokes'] = merged_keystrokes
+                    df.at[first_row_index, 'mic'] = merged_mic
+                    df.at[first_row_index, 'mouseScroll'] = merged_mouse_scroll
+                    df.at[first_row_index, 'camera'] = merged_camera
 
                     # Mark other workdays for dropping
                     indices_to_drop.update(merge_unique_ids[1:])
