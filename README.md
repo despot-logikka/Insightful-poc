@@ -1,47 +1,97 @@
-# Insightful-poc
-Repo for poc of focus time/distractors
-### TODO
-##### Prepare app column to be mapped in a specific number of values. All mappings need to be performed inside a categoryId. Perfect to have in the beggining 50 - 200 app names.
+# Project Title: Insightful Data Pipeline
 
-##### Create mehanism for mapping new values into Unknown
+This repository contains the data pipeline scripts for the Insightful project, aimed at processing data step by step using modular components. The pipeline consists of preprocessing steps, followed by the main data processing, with code separated into different modules for maintainability and reuse.
 
-##### Estimate some avg number of apps per day - to have an intuition what will be the length of the created text of the transitions
+## Folder Structure
 
-##### Discuss about the problem, will all these approaches lead to finding distractor groups or finging people with similar behaviour?
+```
+.
+├── pipeline
+│   ├── __pycache__
+│   ├── configs
+│   │   ├── preprocessing_config.yaml
+│   │   └── processing_config.yaml
+│   ├── data
+│   ├── mappings
+│   ├── processing
+│   │   ├── __init__.py
+│   │   └── processing.py
+│   ├── utils
+│   │   ├── __init__.py
+│   │   └── utils.py
+│   ├── main_preprocess.py
+│   └── main_process.py
+├── README.md
+├── poc-despot.ipynb
+├── poc-njegos.ipynb
+```
 
-##### Do we really want only distractors (doesn't matter from where) ex: VsCode(40min) -> Youtube(1min) and Adobe PS (35min) -> Youtube(2min) ----> Do we want these to be the same?
+## Prerequisites
 
-##### Heuristic? Create a mechanism which will detect a potential distractor (ex: between 2 long apps you have a small portion of time--->usually distractor) (if having 3 small groups in a row----burst behaviour) (always find most dominant app per day (msot used one) and the most frequent one(ex: youtube) and put a better focus on these transitions durring the feature creation) --- Discuss with Njegos about this+
+- Python 3.7+
+- Required Python packages: Install using `requirements.txt` or manually install the dependencies
 
-#### --------------------------------------------25-10-2024----------------------------------------------
-#### Check for quality of newly created dataset D/Nj
+```sh
+pip install -r requirements.txt
+```
 
-#### Agregation of same apps one next to each other D
+## Steps to Run the Pipeline
 
-#### Be aware of micro differences between apps (potential operation roundigs may result in small differenes) D
+### Step 1: Clone the Repository
 
-#### Check about mapping the apps? Nj
+Clone this repository to your local machine:
 
-#### Check if elastic search support informstion retrival for whole index Nj
+```sh
+git clone https://github.com/despot-logikka/Insightful-poc.git
+```
 
-#### Rename apps which have activae status False to custom name (Concentration Lost) D
+Navigate to the project directory:
 
-#### Clean repo/ Refactor code a bit/ Update Github (Nj/D)
+```sh
+cd Insightful-poc
+```
 
-#### Non working time? (Weekends, After job) with client discussion D/Nj ? After creatimg th dataset
+### Step 2: Navigate to the `pipeline` Directory
 
-#### Check for browsers the distributions for some more specific app use
+To run the main preprocessing and processing scripts, navigate to the `pipeline` directory:
 
-#### Check for different os loggings
+```sh
+cd pipeline
+```
 
-#### Perform statistics on newly created dataset such as avg duration, most frequent apps and some other descriptive ones to have better intuition of setting thresholds
+### Step 3: Preprocessing Step
 
-#### Check for URLs where sites are NaN
-# ------------------------------------------------ Heuristics -------------------------------------------
+The preprocessing step involves using the `main_preprocess.py` script to preprocess the raw data. This script relies on the configurations specified in `configs/preprocessing_config.yaml`.
 
-# Short app between 2 longer sequences often may reflect a short distraction
-# Series of changes between apps may reflect some kind of multy-tasking
-# Detecting Concentration Lost as a distractor because people do not work in thos moments
-# Most frequent app or app with lowest avg duration may represent a distractor
-# Calculate the longest apps (avg session or whole duration) and check for every app that's comming after that app --> if len is short for the second app it may be a distractor
+Run the preprocessing script:
+
+```sh
+python main_preprocess.py
+```
+
+This will read the raw data, apply transformations defined in the configuration, and save the intermediate processed data to be used in the next step.
+
+### Step 4: Main Processing Step
+
+After preprocessing is complete, run the main processing script to complete the data pipeline.
+
+```sh
+python main_process.py
+```
+
+This script processes the preprocessed data further, performing transformations as defined in `configs/processing_config.yaml`.
+
+### Step 5: Inspect the Results
+
+After running the pipeline, the final output data and logs can be found in the `data` directory or any other directory defined in the configuration files.
+
+## Overview of Code Structure
+
+- **processing/**: Contains code related to data processing, e.g., transformations and data cleaning.
+  - **processing.py**: Core functions for processing the data.
+- **utils/**: Contains utility functions that assist with various operations.
+  - **utils.py**: General utility functions used throughout the pipeline.
+- **configs/**: YAML configuration files for setting up different parameters for preprocessing and main processing.
+- **main_preprocess.py**: The entry script for data preprocessing.
+- **main_process.py**: The entry script for data processing after preprocessing is complete.
 
