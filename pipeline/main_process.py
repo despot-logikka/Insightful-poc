@@ -3,7 +3,7 @@ from processing import WorkdayProcessor
 
 if __name__ == "__main__":
     # Step 1: Load configuration
-    config_path = "config.yaml"
+    config_path = "configs/processing_config.yaml"
     processor = WorkdayProcessor(config_path)
 
     # Step 2: Load the raw dataset
