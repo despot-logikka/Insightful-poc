@@ -1,0 +1,4 @@
+paths:
+  input_dir: "data/raw_data"
+  output_path: "data/raw_dataset.csv"
+
