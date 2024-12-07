@@ -20,11 +20,11 @@ try:
 except Exception as e:
     print(e)
 
-# input_dir = config['paths']['input_dir']
-# output_path = config['paths']['output_path']
+input_dir = config['paths']['input_dir']
+output_path = config['paths']['output_path']
 
-# print(f"Input directory: {input_dir}")
-# print(f"Output path: {output_path}")
+print(f"Input directory: {input_dir}")
+print(f"Output path: {output_path}")
 
-# # Combine and save CSV files
-# load_and_process_csv_files(input_dir, output_path)
+# Combine and save CSV files
+load_and_process_csv_files(input_dir, output_path)
