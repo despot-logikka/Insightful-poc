@@ -1,4 +1,3 @@
 paths:
-  base_path: "/data"  # Default to the platform dataset location
-  input_dir: "raw_data"
-  output_path: "raw_dataset.csv"
+  input_dir: "/data/"
+  output_path: "/data/raw_dataset.csv"

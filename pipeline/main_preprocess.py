@@ -19,9 +19,8 @@ try:
 except Exception as e:
     print(e)
 
-base_path = config['paths']['base_path']
-input_dir = os.path.join(base_path, config['paths']['input_dir'])
-output_path = os.path.join(base_path, config['paths']['output_path'])
+input_dir = config['paths']['input_dir']
+output_path = config['paths']['output_path']
 
 print(f"Input directory: {input_dir}")
 print(f"Output path: {output_path}")
