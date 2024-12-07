@@ -1,4 +1,5 @@
 #!/bin/bash
 
-python main_preprocess.py
+python /exp/pipeline/main_preprocess.py
+
 # python main_process.py
