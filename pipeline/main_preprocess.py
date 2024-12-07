@@ -10,4 +10,4 @@ input_directory = config['paths']['input_dir']
 output_filepath = config['paths']['output_path']
 
 # Combine and save CSV files
-combined_df = load_and_process_csv_files(input_directory, output_filepath)
+load_and_process_csv_files(input_directory, output_filepath)

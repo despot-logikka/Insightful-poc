@@ -32,12 +32,10 @@ def load_and_process_csv_files(input_directory, output_filepath):
     combined_df = pd.concat(dataframes, ignore_index=True)
 
     # Drop duplicates
-    combined_df = combined_df.drop_duplicates()
+    combined_df = combined_df.drop_duplicates(subset=['id'])
 
     # Sort by 'employeeId'
     combined_df = combined_df.sort_values(by='employeeId').reset_index(drop=True)
 
     # Save the processed DataFrame to the specified output file path
     combined_df.to_csv(output_filepath, index=False)
-
-    return combined_df
