@@ -12,8 +12,12 @@ config_path = os.path.join(current_dir, 'configs', 'preprocessing_config.yaml')
 with open(config_path, 'r') as config_file:
     config = yaml.safe_load(config_file)
 
-print(os.listdir('/'))
-print(os.listdir('/data/'))
+try:
+    print(os.listdir('/'))
+    print(os.listdir('/data/'))
+    print(os.listdir('/exp/'))
+except Exception as e:
+    print(e)
 
 base_path = config['paths']['base_path']
 input_dir = os.path.join(base_path, config['paths']['input_dir'])
@@ -23,4 +27,4 @@ print(f"Input directory: {input_dir}")
 print(f"Output path: {output_path}")
 
 # Combine and save CSV files
-load_and_process_csv_files(input_directory, output_filepath)
+load_and_process_csv_files(input_dir, output_path)
