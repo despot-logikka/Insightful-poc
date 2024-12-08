@@ -24,15 +24,10 @@ def load_and_process_csv_files(input_directory, output_filepath):
 
     # Load and concatenate all CSV files
     dataframes = []
-    counter = 0
     for file in csv_files:
         file_path = os.path.join(input_directory, file)
         df = pd.read_csv(file_path)
         dataframes.append(df)
-        counter += 1
-        
-        if counter >= 4:
-            break
     
     combined_df = pd.concat(dataframes, ignore_index=True)
 
