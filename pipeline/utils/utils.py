@@ -47,8 +47,8 @@ def load_and_process_csv_files(input_directory, output_filepath):
     # Load and concatenate all CSV files
     dataframes = []
     for file in csv_files:
-        file_path = os.path.join(input_directory, file, dtype=column_types, low_memory=False)
-        df = pd.read_csv(file_path)
+        file_path = os.path.join(input_directory, file)
+        df = pd.read_csv(file_path, dtype=column_types, low_memory=False)
         dataframes.append(df)
     
     combined_df = pd.concat(dataframes, ignore_index=True)
