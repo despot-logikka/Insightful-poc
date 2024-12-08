@@ -22,10 +22,32 @@ def load_and_process_csv_files(input_directory, output_filepath):
     # List all CSV files in the specified directory
     csv_files = [f for f in os.listdir(input_directory) if f.endswith('.csv')]
 
+    column_types = {
+        "app": "object",
+        "mouseClicks": "int64",
+        "os": "object",
+        "keystrokes": "int64",
+        "mic": "object",
+        "start": "int64",
+        "active": "bool",
+        "employeeId": "object",
+        "appFileName": "object",
+        "site": "object",
+        "redacted_url": "object",
+        "mouseScroll": "float64",
+        "productivity": "int64",
+        "appId": "object",
+        "teamId": "object",
+        "end": "int64",
+        "id": "object",
+        "camera": "object",
+        "categoryId": "object",
+    }    
+    
     # Load and concatenate all CSV files
     dataframes = []
     for file in csv_files:
-        file_path = os.path.join(input_directory, file)
+        file_path = os.path.join(input_directory, file, dtype=column_types, low_memory=False)
         df = pd.read_csv(file_path)
         dataframes.append(df)
     
