@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+import numpy as np
 
 def append_local_to_apps(mappings_apps):
     """Appends '-Local' to the app_mapping_v2 column in mappings_apps."""
@@ -53,8 +54,11 @@ def load_and_process_csv_files(input_directory, output_filepath):
     
     combined_df = pd.concat(dataframes, ignore_index=True)
 
+    print(f"Shape before dropping duplicates: {np.shape(combined_df)}")
     # Drop duplicates
     combined_df = combined_df.drop_duplicates(subset=['id'])
+
+    print(f"Shape after dropping duplicates: {np.shape(combined_df)}")
 
     # Sort by 'employeeId'
     combined_df = combined_df.sort_values(by='employeeId').reset_index(drop=True)
