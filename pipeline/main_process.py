@@ -24,7 +24,7 @@ if __name__ == "__main__":
     processor = WorkdayProcessor(config_path)
 
     # Step 2: Load the raw dataset
-    raw_df = processor.load_csv(processor.config['paths']['input_data'], sep=';')
+    raw_df = processor.load_csv(processor.config['paths']['input_data'])
 
     # Step 3: Load browsers dataset for unique apps
     browsers = processor.load_csv(processor.config['paths']['browsers'], sep=';')
