@@ -1,7 +1,7 @@
 paths:
-  input_data: "data/raw_dataset.csv"
-  app_mappings: "mappings/app_mappings_2st_round.csv"
-  site_mappings: "mappings/site_mappings_3rd_round_.csv"
-  browsers: "mappings/browsers.csv"
-  exclude_mappings: "mappings/exclude_mappings.json"
-  processed_data: "out/processed_data.csv"
+  input_data: "/data/raw_dataset.csv"
+  app_mappings: "/mappings/app_mappings_2st_round.csv"
+  site_mappings: "/mappings/site_mappings_3rd_round_.csv"
+  browsers: "/mappings/browsers.csv"
+  exclude_mappings: "/mappings/exclude_mappings.json"
+  processed_data: "/out/processed_data.csv"
