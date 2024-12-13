@@ -1,9 +1,26 @@
+import os
 from datetime import timedelta
 from processing import WorkdayProcessor
 
 if __name__ == "__main__":
+
+    try:
+        print(os.listdir('/'))
+        print(os.listdir('/data/'))
+        print(os.listdir('/exp/'))
+        print(os.listdir('/out/'))
+    except Exception as e:
+        print(e)
+
+    # Get the directory of the current script
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+
+    # Build the full path to the config file
+    config_path = os.path.join(current_dir, 'configs', 'processing_config.yaml')
+
+    print(f"Current config path: {config_path}")
+
     # Step 1: Load configuration
-    config_path = "configs/processing_config.yaml"
     processor = WorkdayProcessor(config_path)
 
     # Step 2: Load the raw dataset
